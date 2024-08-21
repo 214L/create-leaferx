@@ -1,0 +1,31 @@
+{
+  "name": "create-leaferx",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "create-leaferx": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "leafer",
+    "leaferjs",
+    "leaferX"
+  ],
+  "author": "214L",
+  "license": "MIT",
+  "description": "An easy way to start a LeaferX project powered by Vite.",
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/eslint": "^9.6.0",
+    "@types/node": "^20.14.15",
+    "@types/prompts": "^2.4.9",
+    "ejs": "^3.1.10",
+    "esbuild": "^0.18.20",
+    "esbuild-plugin-license": "^1.2.3",
+    "kolorist": "^1.8.0",
+    "prompts": "^2.4.2",
+    "zx": "^8.1.4"
+  }
+}
