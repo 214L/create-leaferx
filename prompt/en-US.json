@@ -2,6 +2,10 @@
   "projectName": {
     "message": "Project name:"
   },
+  "supportPlatforms":{
+    "message": "Please select the platform that your plugin will support.",
+    "hint":"- Space to select. Return to submit"
+  },
   "shouldOverwrite": {
     "dirForPrompts": {
       "current": "Current directory",

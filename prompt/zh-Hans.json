@@ -2,6 +2,10 @@
   "projectName": {
     "message": "请输入项目名称："
   },
+  "supportPlatforms":{
+    "message": "请选择插件将支持的平台",
+    "hint":"- 按下空格键选择，回车键提交"
+  },
   "shouldOverwrite": {
     "dirForPrompts": {
       "current": "当前目录",

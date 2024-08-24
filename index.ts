@@ -25,11 +25,11 @@ async function init() {
   const args = process.argv.slice(2)
 
  
-  const { values: argv } = parseArgs({
+  const { values: argv ,positionals} = parseArgs({
     args,
     strict: false
   })
-  
+  let targetDir = positionals[0]
   let result= {}
 
   try {
@@ -42,10 +42,28 @@ async function init() {
         name: 'projectName',
         type: 'text',
         message: promptMessage.projectName.message,
-        initial: 'leafer-x-' 
+        initial: 'leafer-x-' ,
+        onState: (state) => (targetDir = String(state.value).trim() || 'leafer-x-')
+      },
+      {
+        type: 'multiselect',
+        name: 'supportPlatforms',
+        message: promptMessage.supportPlatforms.message,
+        choices: [
+            { title: 'web', value: 'web' , selected: true },
+            { title: 'worker', value: 'worker', selected: true  },
+            { title: 'node', value: 'node' , selected: true },
+            { title: 'miniapp', value: 'miniapp' , selected: true },
+        ],
+        hint: promptMessage.supportPlatforms.hint,
+        instructions: false, 
+        min: 1, 
+        max: 4
       }
     ])
-
+    console.log(result);
+    console.log(targetDir);
+    
     console.log('finish')
   } catch (cancelled) {
     console.log('cancelled')
