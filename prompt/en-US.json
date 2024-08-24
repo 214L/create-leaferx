@@ -1,0 +1,27 @@
+{
+  "projectName": {
+    "message": "Project name:"
+  },
+  "shouldOverwrite": {
+    "dirForPrompts": {
+      "current": "Current directory",
+      "target": "Target directory"
+    },
+    "message": "is not empty. Remove existing files and continue?"
+  },
+  "packageName": {
+    "message": "Package name:",
+    "invalidMessage": "Invalid package.json name"
+  },
+  "errors": {
+    "operationCancelled": "Operation cancelled"
+  },
+  "defaultToggleOptions": {
+    "active": "Yes",
+    "inactive": "No"
+  },
+  "infos": {
+    "scaffolding": "Scaffolding project in",
+    "done": "Done. Now run:"
+  }
+}
