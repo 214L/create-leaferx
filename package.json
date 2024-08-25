@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "zx ./scripts/build.mjs",
-    "dev":"zx ./scripts/build.mjs && node outfile.cjs"
+    "dev": "zx ./scripts/build.mjs && node outfile.cjs"
   },
   "keywords": [
     "leafer",
@@ -36,5 +36,8 @@
     "prompts": "^2.4.2",
     "vitest": "^2.0.5",
     "zx": "^8.1.4"
+  },
+  "dependencies": {
+    "ora": "^8.0.1"
   }
 }
