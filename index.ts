@@ -10,12 +10,13 @@ import {
   getLeaferVersion,
   getPrompt,
   canSkipOverwriteOption,
-  emptyDirectory
+  emptyDirectory,
+  isValidPackageName,
+  toValidPackageName
 } from './utils/index'
-import { red, green, bold } from 'kolorist'
+import { red, gray, bold } from 'kolorist'
 import ora from 'ora'
 
-const spinner = ora(`Loading ${chalk.red('unicorns')}`).start()
 async function init() {
   console.log()
   console.log(
@@ -51,9 +52,9 @@ async function init() {
         name: 'projectName',
         type: 'text',
         message: promptMessage.projectName.message,
-        initial: 'leafer-x-',
+        initial: 'leafer-',
         onState: state =>
-          (targetDir = String(state.value).trim() || 'leafer-x-')
+          (targetDir = String(state.value).trim() || 'leafer-')
       },
       {
         name: 'shouldOverwrite',
@@ -80,6 +81,13 @@ async function init() {
           }
           return null
         }
+      },
+      {
+        name: 'packageName',
+        type: () => (isValidPackageName(targetDir) ? null : 'text'),
+        message: `${promptMessage.packageName.message}\n${gray(promptMessage.packageName.hint)}`,
+        initial:() => toValidPackageName(targetDir),
+        validate: (dir) => isValidPackageName(dir) || promptMessage.packageName.invalidMessage
       },
       {
         type: 'multiselect',
