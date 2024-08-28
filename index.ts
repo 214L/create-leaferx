@@ -12,9 +12,12 @@ import {
   canSkipOverwriteOption,
   emptyDirectory,
   isValidPackageName,
-  toValidPackageName
+  toValidPackageName,
+  renderTemplate,
+  getUser,
+  getGlobalName
 } from './utils/index'
-import { red, gray, bold } from 'kolorist'
+import { red, gray } from 'kolorist'
 import ora from 'ora'
 
 async function init() {
@@ -25,36 +28,32 @@ async function init() {
       : banners.defaultBanner
   )
   console.log()
-  let leaferVersion = await getLeaferVersion()
 
+  let leaferVersion = await getLeaferVersion()
   const promptMessage = getPrompt()
 
-  const args = process.argv.slice(2)
+  // const args = process.argv.slice(2)
 
-  const { values: argv, positionals } = parseArgs({
-    args,
-    strict: false
-  })
-  let targetDir = positionals[0]
+  // const { values: argv } = parseArgs({
+  //   args,
+  //   strict: false
+  // })
+  let targetDir = ''
   let result: {
     projectName?: string
     shouldOverwrite?: boolean
     packageName?: string
+    supportPlatforms?: string[]
   } = {}
 
   try {
-    // Prompts:
-    // - Project name:
-    //   - whether to overwrite the existing directory or not?
-    //   - enter a valid package name for package.json
     result = await prompts([
       {
         name: 'projectName',
         type: 'text',
         message: promptMessage.projectName.message,
         initial: 'leafer-',
-        onState: state =>
-          (targetDir = String(state.value).trim() || 'leafer-')
+        onState: state => (targetDir = String(state.value).trim() || 'leafer-')
       },
       {
         name: 'shouldOverwrite',
@@ -86,12 +85,13 @@ async function init() {
         name: 'packageName',
         type: () => (isValidPackageName(targetDir) ? null : 'text'),
         message: `${promptMessage.packageName.message}\n${gray(promptMessage.packageName.hint)}`,
-        initial:() => toValidPackageName(targetDir),
-        validate: (dir) => isValidPackageName(dir) || promptMessage.packageName.invalidMessage
+        initial: () => toValidPackageName(targetDir),
+        validate: dir =>
+          isValidPackageName(dir) || promptMessage.packageName.invalidMessage
       },
       {
-        type: 'multiselect',
         name: 'supportPlatforms',
+        type: 'multiselect',
         message: promptMessage.supportPlatforms.message,
         choices: [
           { title: 'web', value: 'web', selected: true },
@@ -105,12 +105,19 @@ async function init() {
         max: 4
       }
     ])
-    let { shouldOverwrite } = result
+
+    const {
+      projectName,
+      packageName = projectName ?? 'leafer-',
+      shouldOverwrite,
+      supportPlatforms
+    } = result
 
     const cwd = process.cwd()
     const root = path.join(cwd, targetDir)
-
-    
+    const author = getUser()
+    let globalName = getGlobalName(packageName)
+    //handle directory
     if (fs.existsSync(root) && shouldOverwrite) {
       const spinner = ora('emptying dir...').start()
       emptyDirectory(root)
@@ -119,6 +126,49 @@ async function init() {
       fs.mkdirSync(root)
     }
 
+    //handle package.json
+    const pkg = {
+      name: packageName,
+      version: '0.0.0',
+      author,
+      devDependencies: {
+        'leafer-ui': `^${leaferVersion}`
+      },
+      dependencies: {
+        '@leafer-ui/core': `^${leaferVersion}`
+      }
+    }
+    fs.writeFileSync(
+      path.resolve(root, 'package.json'),
+      JSON.stringify(pkg, null, 2)
+    )
+
+    //handle template
+    const templateRoot = path.resolve(__dirname, 'template')
+    const render = function render(templateName) {
+      const templateDir = path.resolve(templateRoot, templateName)
+      renderTemplate(templateDir, root)
+    }
+    // Render base template
+    render('base')
+
+    // handle platform supportPlatforms
+    let rollupConfigPath = path.resolve(root, 'rollup.config.js')
+
+    if (fs.existsSync(rollupConfigPath)) {
+      // handle rollup.config.js
+      const existing = fs.readFileSync(rollupConfigPath, 'utf8')
+
+      // 修改 globalName 和 supportPlatforms 的值
+      let modifiedData = existing
+        .replace(/const globalName = 'LeaferX.selector'/, `const globalName = '${globalName}'`)
+        .replace(
+          /const supportPlatforms = \['web','worker','node','miniapp'\]/,
+          `const supportPlatforms = ${JSON.stringify(supportPlatforms)}`
+        )
+      fs.writeFileSync(rollupConfigPath, modifiedData)
+      return
+    }
     console.log('finish')
   } catch (cancelled) {
     console.log('cancelled', cancelled)

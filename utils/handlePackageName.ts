@@ -18,3 +18,27 @@ export function toValidPackageName(projectName) {
     return 'leafer-x-'
   }
 }
+export function getGlobalName(str) {
+  if (str.startsWith('@')) {
+    str = str.replace(/^@[^/]+\//, '')
+  }
+  if (str.startsWith('leafer-x')) {
+    str = str.replace('leafer-x', '')
+  } else if (str.startsWith('leafer-')) {
+    str = str.replace('leafer-', '')
+  }
+
+  const parts = str.split('-')
+
+  return (
+    'LeaferX.' +
+    parts
+      .map((part, index) => {
+        if (index > 0 || parts.length > 1) {
+          return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+        }
+        return part.toLowerCase()
+      })
+      .join('')
+  )
+}
