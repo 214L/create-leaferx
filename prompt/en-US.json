@@ -1,4 +1,5 @@
 {
+  "language":"en",
   "projectName": {
     "message": "Project name:"
   },
@@ -27,6 +28,9 @@
   },
   "infos": {
     "scaffolding": "Scaffolding project in",
-    "done": "Done. Now run:"
+    "done": "Initialization complete. Now run:"
+  },
+  "welcome": {
+    "message": "Like a small tree sprouting, continuously growing, full of hope and vitality."
   }
 }

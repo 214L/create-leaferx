@@ -17,20 +17,29 @@ import {
   getUser,
   getGlobalName
 } from './utils/index'
-import { red, gray } from 'kolorist'
+import { red, gray, bold, lightGreen } from 'kolorist'
 import ora from 'ora'
 
 async function init() {
+  const promptMessage = getPrompt()
   console.log()
-  console.log(
-    process.stdout.isTTY && process.stdout.getColorDepth() > 8
-      ? banners.gradientBanner
-      : banners.defaultBanner
-  )
+  if (promptMessage.language == 'zh') {
+    console.log(
+      process.stdout.isTTY && process.stdout.getColorDepth() > 8
+      ? banners.gradientZhBanner
+      : banners.defaultZhBanner
+    )
+  }else if(promptMessage.language == 'en'){
+    console.log(
+      process.stdout.isTTY && process.stdout.getColorDepth() > 8
+        ? banners.gradientEnBanner
+        : banners.defaultEnBanner
+    )
+  }
+
   console.log()
 
   let leaferVersion = await getLeaferVersion()
-  const promptMessage = getPrompt()
 
   // const args = process.argv.slice(2)
 
@@ -130,7 +139,7 @@ async function init() {
     const pkg = {
       name: packageName,
       version: '0.0.0',
-      author,
+      author
     }
     fs.writeFileSync(
       path.resolve(root, 'package.json'),
@@ -152,13 +161,15 @@ async function init() {
     if (fs.existsSync(rollupConfigPath)) {
       const existing = fs.readFileSync(rollupConfigPath, 'utf8')
       let modifiedData = existing
-        .replace(/const globalName = 'LeaferX.selector'/, `const globalName = '${globalName}'`)
+        .replace(
+          /const globalName = 'LeaferX.selector'/,
+          `const globalName = '${globalName}'`
+        )
         .replace(
           /const supportPlatforms = \['web','worker','node','miniapp'\]/,
           `const supportPlatforms = ${JSON.stringify(supportPlatforms)}`
         )
       fs.writeFileSync(rollupConfigPath, modifiedData)
-      return
     }
     //handle leafer version
     let packagePath = path.resolve(root, 'package.json')
@@ -166,10 +177,33 @@ async function init() {
       const existing = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
       existing.dependencies['@leafer-ui/core'] = `^${leaferVersion}`
       existing.devDependencies['leafer-ui'] = `^${leaferVersion}`
-      fs.writeFileSync(packagePath, existing)
-      return
+      fs.writeFileSync(packagePath, JSON.stringify(existing, null, 2))
     }
-    console.log('finish')
+    //finish
+    console.log(`\n${promptMessage.infos.done}\n`)
+    if (root !== cwd) {
+      const cdProjectName = path.relative(cwd, root)
+      console.log(
+        `  ${bold(lightGreen(`cd ${cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName}`))}`
+      )
+    }
+    console.log(`  ${bold(lightGreen('npm install'))}`)
+    console.log(`  ${bold(lightGreen('npm run start'))}`)
+    console.log()
+    if (promptMessage.language == 'zh') {
+      console.log(
+        process.stdout.isTTY && process.stdout.getColorDepth() > 8
+        ? banners.gradientZhWelcome
+        : banners.defaultZhWelcome
+      )
+    }else if(promptMessage.language == 'en'){
+      console.log(
+        process.stdout.isTTY && process.stdout.getColorDepth() > 8
+          ? banners.gradientEnWelcome
+          : banners.defaultEnWelcome
+      )
+    }
+    console.log()
   } catch (cancelled) {
     console.log('cancelled', cancelled)
     process.exit(1)
