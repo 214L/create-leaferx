@@ -1,7 +1,5 @@
-dev
-dist
-types
 node_modules
+
 
 package-lock.json
 pnpm-lock.yaml
@@ -14,3 +12,5 @@ pnpm-lock.yaml
 .eslintcache
 *.tsbuildinfo
 *.log
+
+create-leaferx.cjs

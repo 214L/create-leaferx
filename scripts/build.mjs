@@ -28,7 +28,7 @@ await esbuild.build({
   bundle: true,
   entryPoints: ['index.ts'],
   external: ['prompt/*'],
-  outfile: 'outfile.cjs',
+  outfile: 'create-leaferx.cjs',
   format: 'cjs',
   platform: 'node',
   target: 'node14',

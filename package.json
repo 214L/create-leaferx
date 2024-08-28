@@ -4,17 +4,23 @@
   "main": "index.ts",
   "type": "module",
   "bin": {
-    "create-leaferx": "index.ts"
+    "create-leaferx": "create-leafer.cjs"
   },
+  "files": [
+    "prompt",
+    "create-leaferx.cjs",
+    "template"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "zx ./scripts/build.mjs",
-    "dev": "zx ./scripts/build.mjs && node outfile.cjs"
+    "dev": "zx ./scripts/build.mjs && node create-leaferx.cjs"
   },
   "keywords": [
     "leafer",
     "leaferjs",
-    "leaferX"
+    "leaferX",
+    "cli"
   ],
   "author": "214L",
   "license": "MIT",
