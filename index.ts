@@ -131,12 +131,6 @@ async function init() {
       name: packageName,
       version: '0.0.0',
       author,
-      devDependencies: {
-        'leafer-ui': `^${leaferVersion}`
-      },
-      dependencies: {
-        '@leafer-ui/core': `^${leaferVersion}`
-      }
     }
     fs.writeFileSync(
       path.resolve(root, 'package.json'),
@@ -154,12 +148,9 @@ async function init() {
 
     // handle platform supportPlatforms
     let rollupConfigPath = path.resolve(root, 'rollup.config.js')
-
+    // handle rollup.config.js
     if (fs.existsSync(rollupConfigPath)) {
-      // handle rollup.config.js
       const existing = fs.readFileSync(rollupConfigPath, 'utf8')
-
-      // 修改 globalName 和 supportPlatforms 的值
       let modifiedData = existing
         .replace(/const globalName = 'LeaferX.selector'/, `const globalName = '${globalName}'`)
         .replace(
@@ -167,6 +158,15 @@ async function init() {
           `const supportPlatforms = ${JSON.stringify(supportPlatforms)}`
         )
       fs.writeFileSync(rollupConfigPath, modifiedData)
+      return
+    }
+    //handle leafer version
+    let packagePath = path.resolve(root, 'package.json')
+    if (fs.existsSync(packagePath)) {
+      const existing = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+      existing.dependencies['@leafer-ui/core'] = `^${leaferVersion}`
+      existing.devDependencies['leafer-ui'] = `^${leaferVersion}`
+      fs.writeFileSync(packagePath, existing)
       return
     }
     console.log('finish')
