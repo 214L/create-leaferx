@@ -12,8 +12,8 @@
     "template"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "zx ./scripts/build.mjs",
+    "test": "vitest",
+    "build": "vitest --run && zx ./scripts/build.mjs",
     "dev": "zx ./scripts/build.mjs && node create-leaferx.cjs"
   },
   "keywords": [

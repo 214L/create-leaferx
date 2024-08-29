@@ -1,5 +1,6 @@
 ### create-leaferx
 English | [简体中文](./README.md)
+
 create-leaferx is a cli tool that helps you to create a LeaferX project.
 #### Installation
 ```bash

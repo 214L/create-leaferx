@@ -89,3 +89,4 @@ await esbuild.build({
     })
   ]
 })
+console.log("build done");

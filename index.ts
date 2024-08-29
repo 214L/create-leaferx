@@ -20,7 +20,7 @@ import {
 import { red, gray, bold, lightGreen } from 'kolorist'
 import ora from 'ora'
 
-async function init() {
+export async function init() {
   const promptMessage = getPrompt()
   console.log()
   if (promptMessage.language == 'zh') {
