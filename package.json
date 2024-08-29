@@ -24,7 +24,7 @@
   ],
   "author": "214L",
   "license": "MIT",
-  "description": "An easy way to start a LeaferX project powered by Vite.",
+  "description": "An easy way to start a LeaferX project.",
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/eslint": "^9.6.0",
