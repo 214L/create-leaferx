@@ -34,9 +34,12 @@
     "esbuild": "^0.18.20",
     "esbuild-plugin-license": "^1.2.3",
     "kolorist": "^1.8.0",
-    "prompts": "^2.4.2",
     "ora": "^8.0.1",
+    "prompts": "^2.4.2",
     "vitest": "^2.0.5",
     "zx": "^8.1.4"
+  },
+  "engines": {
+    "node": ">= 14.18"
   }
 }
