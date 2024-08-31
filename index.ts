@@ -3,9 +3,12 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import process from 'node:process'
-import { parseArgs } from 'node:util'
 import prompts from 'prompts'
 import * as banners from './utils/banners'
+import { red, gray, bold, lightGreen } from 'kolorist'
+import ora from 'ora'
+// import { parseArgs } from 'node:util'
+
 import {
   getLeaferVersion,
   getPrompt,
@@ -17,8 +20,7 @@ import {
   getUser,
   getGlobalName
 } from './utils/index'
-import { red, gray, bold, lightGreen } from 'kolorist'
-import ora from 'ora'
+
 
 export async function init() {
   const promptMessage = getPrompt()
