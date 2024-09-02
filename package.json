@@ -14,7 +14,8 @@
   "scripts": {
     "test": "vitest",
     "build": "vitest --run && zx ./scripts/build.mjs",
-    "dev": "zx ./scripts/build.mjs && node create-leaferx.cjs"
+    "dev": "zx ./scripts/build.mjs && node create-leaferx.cjs",
+    "update":"bash ./scripts/update.sh"
   },
   "keywords": [
     "leafer",

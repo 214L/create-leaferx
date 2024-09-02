@@ -1,4 +1,7 @@
 {
+  "name": "leafer-x",
+  "version": "1.0.2",
+  "author": "leafer <leaferjs@163.com>",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.esm.js",
