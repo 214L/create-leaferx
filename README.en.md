@@ -1,3 +1,6 @@
+# This repository is deprecated
+This repository is no longer maintained. Please visit the new repository at [create-leafer](https://github.com/214L/create-leafer).
+
 ### create-leaferx
 English | [简体中文](./README.md)
 
