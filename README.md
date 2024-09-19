@@ -1,3 +1,6 @@
+# 此仓库已废弃
+该仓库不再维护，请访问新仓库：[create-leafer](https://github.com/214L/create-leafer)。
+
 ### create-leaferx
 [English](./README.en.md) | 简体中文
 
